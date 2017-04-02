@@ -22,7 +22,7 @@ public class System {
     private Model centerPlanet;
     public Model getCenterPlanet(){return centerPlanet;}
     public void setCenterPlanet(Model value){
-        cpinstance = new ModelInstance(value);
+        this.cpinstance = new ModelInstance(value);
         this.centerPlanet = value;
     }
     //Задание параметров
@@ -41,7 +41,7 @@ public class System {
     //Задание скорости вращения
     public float velocity;
     //Система движущаяся на орбите
-    public System inOrbite;
+    public System[] inOrbite;
     public void render(System s, ModelBatch modelBatch){
         angle += velocity;//(float)Math.PI / 180f;
         if (angle > 2f * Math.PI)
@@ -53,10 +53,10 @@ public class System {
 
         Vector3 motion = new Vector3((float) mx,(float) my,(float) mz);
 
-        modelBatch.render(cpinstance);
+        modelBatch.render(this.cpinstance);
         cpinstance.transform.set(motion,new Quaternion(0,0,0,0));
-        
-        if(inOrbite != null)render(inOrbite,modelBatch);
+        if(inOrbite != null)
+            for(int i = 0;i<inOrbite.length;i++){s.render(inOrbite[i],modelBatch);}
     }
     public void dispose() {
         centerPlanet.dispose();
