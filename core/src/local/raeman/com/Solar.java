@@ -61,7 +61,7 @@ public class Solar extends ApplicationAdapter {
 		luna.rotation(true,false,true); //Оси вращения
 		luna.r = 10; // радиус вращения
 		luna.angle = 180;//начальное положение на орбите
-		luna.velocity = (float)Math.PI / 180f; // скорость вращения
+		luna.velocity = (float)Math.PI / 20f; // скорость вращения
 		luna.inOrbite = null;
 
 		planet1.inOrbite = new System[]{luna};
