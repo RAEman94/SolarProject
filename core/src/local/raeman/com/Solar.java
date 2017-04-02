@@ -24,6 +24,10 @@ public class Solar extends ApplicationAdapter {
 		Running, PAUSE
 	}
 
+	public void Test(){
+
+	}
+
 	State state = State.Running;
 
 	@Override
