@@ -42,7 +42,8 @@ public class System {
     public float velocity;
     //Система движущаяся на орбите
     public System[] inOrbite;
-    public void render(System s, ModelBatch modelBatch){
+    public void render(System s, ModelBatch modelBatch,double[] centerPosition){
+        s.axis(centerPosition[0],centerPosition[1],centerPosition[2]);
         angle += velocity;//(float)Math.PI / 180f;
         if (angle > 2f * Math.PI)
             angle -= 2f * (float)Math.PI;
@@ -56,7 +57,8 @@ public class System {
         modelBatch.render(this.cpinstance);
         cpinstance.transform.set(motion,new Quaternion(0,0,0,0));
         if(inOrbite != null)
-            for(int i = 0;i<inOrbite.length;i++){s.render(inOrbite[i],modelBatch);}
+            for(int i = 0;i<inOrbite.length;i++)
+                s.render(inOrbite[i], modelBatch, new double[]{ mx, my, mz});
     }
     public void dispose() {
         centerPlanet.dispose();

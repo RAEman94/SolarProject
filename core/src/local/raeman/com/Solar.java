@@ -46,38 +46,35 @@ public class Solar extends ApplicationAdapter {
 		ModelBuilder modelBuilder = new ModelBuilder();
 
 		system.setCenterPlanet(modelBuilder.createSphere(20f,20f,20f,10,10,new Material(ColorAttribute.createDiffuse(Color.YELLOW)),VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal));
-		system.axis(0,0,0);
 		system.rotation(true,false,true);//задание осей вращения
 		system.r = 0; // радиус вращения
 		system.angle = 0;//начальное положение на орбите
 		system.velocity = (float)Math.PI / 180f; // скорость вращения
 
 		planet1.setCenterPlanet(modelBuilder.createSphere(10f,10f,10f,5,5,new Material(ColorAttribute.createDiffuse(Color.GREEN)),VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal));
-		planet1.axis(0,0,0);
 		planet1.rotation(true,false,true); //Оси вращения
-		planet1.r = 20; // радиус вращения
+		planet1.r = 50; // радиус вращения
 		planet1.angle = 180;//начальное положение на орбите
 		planet1.velocity = (float)Math.PI / 180f; // скорость вращения
 
 		luna.setCenterPlanet(modelBuilder.createSphere(5f,5f,5f,5,5,new Material(ColorAttribute.createDiffuse(Color.BLUE)),VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal));
-		luna.axis(0,0,0);
 		luna.rotation(true,false,true); //Оси вращения
 		luna.r = 10; // радиус вращения
 		luna.angle = 180;//начальное положение на орбите
 		luna.velocity = (float)Math.PI / 180f; // скорость вращения
 		luna.inOrbite = null;
 
-		planet1.inOrbite = null;//new System[]{luna};
+		planet1.inOrbite = new System[]{luna};
 
 		planet2.setCenterPlanet(modelBuilder.createSphere(10f,10f,10f,5,5,new Material(ColorAttribute.createDiffuse(Color.RED)),VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal));
-		planet2.axis(0,0,0);
 		planet2.rotation(true,false,true); //Оси вращения
-		planet2.r = 40; // радиус вращения
+		planet2.r = 20; // радиус вращения
 		planet2.angle = 0;//начальное положение на орбите
 		planet2.velocity = (float)Math.PI / 360f; // скорость вращения
 		planet2.inOrbite = null;
 
 		system.inOrbite = new System[]{planet1,planet2};
+		Gdx.app.log("Game", "create");
 	}
 
 	public void render() {
@@ -89,13 +86,13 @@ public class Solar extends ApplicationAdapter {
 		modelBatch.begin(cam);
 		switch(state){
 			case Running:
-				system.render(system,modelBatch);
+				system.render(system,modelBatch,new double[] { 0, 0, 0 });
 				break;
 			case PAUSE:
 				break;
 		}
 		modelBatch.end();
-		//Gdx.app.log("GameRenderer", "render");
+
 	}
 
 	public void dispose() {
