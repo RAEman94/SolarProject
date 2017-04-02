@@ -1,7 +1,10 @@
 package local.raeman.com;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
@@ -12,7 +15,7 @@ import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
-public class Solar extends ApplicationAdapter {
+public class Solar extends InputAdapter implements ApplicationListener {
 	TextButton button;
 
 	public PerspectiveCamera cam;
@@ -25,17 +28,16 @@ public class Solar extends ApplicationAdapter {
 
 	public ModelBatch modelBatch;
 
-	public enum State{
-		Running, PAUSE
-	}
-
-	State state = State.Running;
-
-	@Override
-	public void pause()
+	public enum State
 	{
-		this.state = State.PAUSE;
+		PAUSE,
+		RUN,
+		RESUME,
+		STOPPED
 	}
+
+	State state = State.RUN;
+
 
 	public void create() {
 		modelBatch = new ModelBatch();
@@ -82,38 +84,61 @@ public class Solar extends ApplicationAdapter {
 		button.setPosition(50,50);
 		button.setText("PAUSE");
 		*/
-
-
+		Gdx.input.setInputProcessor(new InputMultiplexer(this));
 		Gdx.app.log("Game", "create");
 	}
 
-	public void Pause_Run(){
-		if(state == State.Running) {
-			state = State.PAUSE;
-			button.setText("RUN");
-		}
-		else {
-			state = State.Running;
-			button.setText("PAUSE");
-		}
-	}
-
+	@Override
 	public void render() {
 
-		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-
-
-		modelBatch.begin(cam);
-		switch(state){
-			case Running:
+		switch (state)
+		{
+			case RUN:
+				Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+				Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+				modelBatch.begin(cam);
 				system.render(system,modelBatch,new double[] { 0, 0, 0 });
+				modelBatch.end();
 				break;
 			case PAUSE:
 				break;
+			case RESUME:
+				break;
+			default:
+				break;
 		}
-		modelBatch.end();
 
+	}
+
+
+	@Override
+	public void resize(int a,int b) {}
+
+	@Override
+	public void pause() {
+		this.state = State.PAUSE;
+	}
+
+	@Override
+	public void resume() {
+		this.state = State.RUN;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		Gdx.app.log("Game", "touchDown");
+		if(state == State.PAUSE){
+			this.state = State.RUN;
+		}else{
+			this.state = State.PAUSE;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		Gdx.app.log("Game", "touchUp");
+		return true;
 	}
 
 	public void dispose() {
