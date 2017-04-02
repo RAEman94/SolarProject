@@ -55,6 +55,7 @@ public class System {
 
         modelBatch.render(cpinstance);
         cpinstance.transform.set(motion,new Quaternion(0,0,0,0));
+        
         if(inOrbite != null)render(inOrbite,modelBatch);
     }
     public void dispose() {
