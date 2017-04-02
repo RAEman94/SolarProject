@@ -10,9 +10,11 @@ import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class Solar extends ApplicationAdapter {
+	TextButton button;
+
 	public PerspectiveCamera cam;
 	final float[] startPos = {150f, -9f, 0f};
 
@@ -55,13 +57,13 @@ public class Solar extends ApplicationAdapter {
 		planet1.rotation(true,false,true); //Оси вращения
 		planet1.r = 50; // радиус вращения
 		planet1.angle = 180;//начальное положение на орбите
-		planet1.velocity = (float)Math.PI / 180f; // скорость вращения
+		planet1.velocity = (float)Math.PI / 360f; // скорость вращения
 
 		luna.setCenterPlanet(modelBuilder.createSphere(5f,5f,5f,5,5,new Material(ColorAttribute.createDiffuse(Color.BLUE)),VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal));
 		luna.rotation(true,false,true); //Оси вращения
 		luna.r = 10; // радиус вращения
 		luna.angle = 180;//начальное положение на орбите
-		luna.velocity = (float)Math.PI / 20f; // скорость вращения
+		luna.velocity = (float)Math.PI / 30f; // скорость вращения
 		luna.inOrbite = null;
 
 		planet1.inOrbite = new System[]{luna};
@@ -70,11 +72,30 @@ public class Solar extends ApplicationAdapter {
 		planet2.rotation(true,false,true); //Оси вращения
 		planet2.r = 20; // радиус вращения
 		planet2.angle = 0;//начальное положение на орбите
-		planet2.velocity = (float)Math.PI / 360f; // скорость вращения
+		planet2.velocity = (float)Math.PI / 180f; // скорость вращения
 		planet2.inOrbite = null;
 
 		system.inOrbite = new System[]{planet1,planet2};
+
+		/*
+		button.setSize(50,50);
+		button.setPosition(50,50);
+		button.setText("PAUSE");
+		*/
+
+
 		Gdx.app.log("Game", "create");
+	}
+
+	public void Pause_Run(){
+		if(state == State.Running) {
+			state = State.PAUSE;
+			button.setText("RUN");
+		}
+		else {
+			state = State.Running;
+			button.setText("PAUSE");
+		}
 	}
 
 	public void render() {
